@@ -1,5 +1,8 @@
 The goal of this repo is to showcase how to use Three.js OBJ Loader inside of a simple React component. 
 
+# Preview
+![Screenshot from 2020-04-05 09-07-41](https://user-images.githubusercontent.com/22643362/78468112-03384e00-771d-11ea-9e08-e44d325b5e40.png)
+
 # Live Demo
 
 Cominig soon
