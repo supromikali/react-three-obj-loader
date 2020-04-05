@@ -5,8 +5,8 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
-    "react": "16.8.6",
-    "react-dom": "16.8.6",
+    "react": "latest",
+    "react-dom": "latest",
     "react-scripts": "2.1.8",
     "three": "^0.104.0"
   },
