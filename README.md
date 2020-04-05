@@ -5,7 +5,7 @@ The goal of this repo is to showcase how to use Three.js OBJ Loader inside of a 
 
 # Live Demo
 
-Cominig soon
+Deployed to Github Pages: https://supromikali.github.io/react-three-obj-loader/
 
 # App Features
 
