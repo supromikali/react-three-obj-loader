@@ -76,8 +76,11 @@ class App extends Component {
             // called when loading is in progresses
              ( xhr ) => {
 
-                console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+                const loadingPercentage = Math.ceil(xhr.loaded / xhr.total * 100);
+                console.log( ( loadingPercentage ) + '% loaded' );
 
+                // update parent react component to display loading percentage
+                this.props.onProgress(loadingPercentage);
             },
             // called when loading has errors
              ( error ) => {
@@ -140,14 +143,15 @@ class Container extends React.Component {
     state = {isMounted: true};
 
     render() {
-        const {isMounted = true} = this.state;
+        const {isMounted = true, loadingPercentage = 0} = this.state;
         return (
             <>
                 <button onClick={() => this.setState(state => ({isMounted: !state.isMounted}))}>
                     {isMounted ? "Unmount" : "Mount"}
                 </button>
-                {isMounted && <App />}
-                {isMounted && <div>Scroll to zoom, drag to rotate</div>}
+                {isMounted && <App onProgress={loadingPercentage => this.setState({ loadingPercentage })} />}
+                {isMounted && loadingPercentage === 100 && <div>Scroll to zoom, drag to rotate</div>}
+                {isMounted && loadingPercentage !== 100 && <div>Loading Model: {loadingPercentage}%</div>}
             </>
         )
     }
