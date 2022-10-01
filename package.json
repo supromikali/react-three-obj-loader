@@ -7,7 +7,7 @@
   "dependencies": {
     "react": "latest",
     "react-dom": "latest",
-    "react-scripts": "2.1.8",
+    "react-scripts": "5.0.1",
     "three": "^0.137.0"
   },
   "scripts": {
