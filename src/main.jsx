@@ -74,7 +74,7 @@ class App extends Component {
                 this.model = el;
             },
             // called when loading is in progresses
-             ( xhr ) => {
+            ( xhr ) => {
 
                 const loadingPercentage = Math.ceil(xhr.loaded / xhr.total * 100);
                 console.log( ( loadingPercentage ) + '% loaded' );
@@ -83,7 +83,7 @@ class App extends Component {
                 this.props.onProgress(loadingPercentage);
             },
             // called when loading has errors
-             ( error ) => {
+            ( error ) => {
 
                 console.log( 'An error happened:' + error );
 
