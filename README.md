@@ -16,5 +16,5 @@ Deployed to Github Pages: https://supromikali.github.io/react-three-obj-loader/
 
 # How to Run an App Locally
 
-This demo app uses [react-scripts](https://github.com/facebook/create-react-app#readme), so to run the app locally just type in your terminal: `npm install && npm start` and the app should start in your browser at http://localhost:3000
+This demo app uses [vite](https://vitejs.dev/), so to run the app locally just type in your terminal: `npm install && npm start` and the app should start in your browser at http://localhost:5173
 
