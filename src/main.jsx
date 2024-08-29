@@ -1,8 +1,8 @@
 import React, {useEffect, useRef, useState} from "react";
+import { createRoot } from 'react-dom/client'
 import * as THREE from 'three';
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import {OBJLoader} from "three/examples/jsm/loaders/OBJLoader";
-import ReactDOM from "react-dom";
 
 const style = {
     height: 500 // we can control scene size by setting container dimensions
@@ -21,7 +21,7 @@ const App = props => {
         return () => {
             window.removeEventListener('resize', thisRef.current.handleWindowResize);
             window.cancelAnimationFrame(thisRef.current.requestID);
-            this.controls.dispose();
+            thisRef.current.controls.dispose();
         }
     }, []);
 
@@ -156,5 +156,6 @@ const Container = () => {
     )
 }
 
-const rootElement = document.getElementById("root");
-ReactDOM.render(<Container />, rootElement);
+createRoot(document.getElementById('root')).render(
+    <Container />
+);
