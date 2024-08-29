@@ -1,54 +1,57 @@
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
+import React, {useEffect, useRef, useState} from "react";
 import * as THREE from 'three';
 import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import {OBJLoader} from "three/examples/jsm/loaders/OBJLoader";
+import ReactDOM from "react-dom";
 
 const style = {
     height: 500 // we can control scene size by setting container dimensions
 };
 
-class App extends Component {
-    componentDidMount() {
-        this.sceneSetup();
-        this.addLights();
-        this.loadTheModel();
-        this.startAnimationLoop();
-        window.addEventListener('resize', this.handleWindowResize);
-    }
+const App = props => {
+    const thisRef = useRef({});
+    const mountRef = useRef(null);
 
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.handleWindowResize);
-        window.cancelAnimationFrame(this.requestID);
-        this.controls.dispose();
-    }
+    useEffect(() => {
+        thisRef.current.sceneSetup();
+        thisRef.current.addLights();
+        thisRef.current.loadTheModel();
+        thisRef.current.startAnimationLoop();
+        window.addEventListener('resize', thisRef.current.handleWindowResize);
+        return () => {
+            window.removeEventListener('resize', thisRef.current.handleWindowResize);
+            window.cancelAnimationFrame(thisRef.current.requestID);
+            this.controls.dispose();
+        }
+    }, []);
+
 
     // Standard scene setup in Three.js. Check "Creating a scene" manual for more information
     // https://threejs.org/docs/#manual/en/introduction/Creating-a-scene
-    sceneSetup = () => {
+    thisRef.current.sceneSetup = () => {
         // get container dimensions and use them for scene sizing
-        const width = this.mount.clientWidth;
-        const height = this.mount.clientHeight;
+        const width = mountRef.current.clientWidth;
+        const height = mountRef.current.clientHeight;
 
-        this.scene = new THREE.Scene();
-        this.camera = new THREE.PerspectiveCamera(
+        thisRef.current.scene = new THREE.Scene();
+        thisRef.current.camera = new THREE.PerspectiveCamera(
             75, // fov = field of view
             width / height, // aspect ratio
             0.1, // near plane
             1000 // far plane
         );
-        this.camera.position.z = 500; // is used here to set some distance from a cube that is located at z = 0
+        thisRef.current.camera.position.z = 500; // is used here to set some distance from a cube that is located at z = 0
         // OrbitControls allow a camera to orbit around the object
         // https://threejs.org/docs/#examples/controls/OrbitControls
-        this.controls = new OrbitControls( this.camera, this.mount );
-        this.renderer = new THREE.WebGLRenderer();
-        this.renderer.setSize( width, height );
-        this.mount.appendChild( this.renderer.domElement ); // mount using React ref
+        thisRef.current.controls = new OrbitControls( thisRef.current.camera, mountRef.current );
+        thisRef.current.renderer = new THREE.WebGLRenderer();
+        thisRef.current.renderer.setSize( width, height );
+        mountRef.current.appendChild( thisRef.current.renderer.domElement ); // mount using React ref
     };
 
     // Code below is taken from Three.js OBJ Loader example
     // https://threejs.org/docs/#examples/en/loaders/OBJLoader
-    loadTheModel = () => {
+    thisRef.current.loadTheModel = () => {
         // instantiate a loader
         const loader = new OBJLoader();
 
@@ -58,11 +61,11 @@ class App extends Component {
             'eleph.obj',
             // called when resource is loaded
             ( object ) => {
-                this.scene.add( object );
+                thisRef.current.scene.add( object );
 
                 // get the newly added object by name specified in the OBJ model (that is Elephant_4 in my case)
                 // you can always set console.log(this.scene) and check its children to know the name of a model
-                const el = this.scene.getObjectByName("Elephant_4");
+                const el = thisRef.current.scene.getObjectByName("Elephant_4");
 
                 // change some custom props of the element: placement, color, rotation, anything that should be
                 // done once the model was loaded and ready for display
@@ -71,7 +74,7 @@ class App extends Component {
                 el.rotation.x = 23.5;
 
                 // make this element available inside of the whole component to do any animation later
-                this.model = el;
+                thisRef.current.model = el;
             },
             // called when loading is in progresses
             ( xhr ) => {
@@ -80,7 +83,7 @@ class App extends Component {
                 console.log( ( loadingPercentage ) + '% loaded' );
 
                 // update parent react component to display loading percentage
-                this.props.onProgress(loadingPercentage);
+                props.onProgress(loadingPercentage);
             },
             // called when loading has errors
             ( error ) => {
@@ -92,7 +95,7 @@ class App extends Component {
     };
 
     // adding some lights to the scene
-    addLights = () => {
+    thisRef.current.addLights = () => {
         const lights = [];
 
         // set color and intensity of lights
@@ -105,56 +108,52 @@ class App extends Component {
         lights[ 1 ].position.set( 1000, 2000, 1000 );
         lights[ 2 ].position.set( - 1000, - 2000, - 1000 );
 
-        this.scene.add( lights[ 0 ] );
-        this.scene.add( lights[ 1 ] );
-        this.scene.add( lights[ 2 ] );
+        thisRef.current.scene.add( lights[ 0 ] );
+        thisRef.current.scene.add( lights[ 1 ] );
+        thisRef.current.scene.add( lights[ 2 ] );
     };
 
-    startAnimationLoop = () => {
+    thisRef.current.startAnimationLoop = () => {
         // slowly rotate an object
-        if (this.model) this.model.rotation.z += 0.005;
+        if (thisRef.current.model) thisRef.current.model.rotation.z += 0.005;
 
-        this.renderer.render( this.scene, this.camera );
+        thisRef.current.renderer.render( thisRef.current.scene, thisRef.current.camera );
 
         // The window.requestAnimationFrame() method tells the browser that you wish to perform
         // an animation and requests that the browser call a specified function
         // to update an animation before the next repaint
-        this.requestID = window.requestAnimationFrame(this.startAnimationLoop);
+        thisRef.current.requestID = window.requestAnimationFrame(thisRef.current.startAnimationLoop);
     };
 
-    handleWindowResize = () => {
-        const width = this.mount.clientWidth;
-        const height = this.mount.clientHeight;
+    thisRef.current.handleWindowResize = () => {
+        const width = mountRef.current.clientWidth;
+        const height = mountRef.current.clientHeight;
 
-        this.renderer.setSize( width, height );
-        this.camera.aspect = width / height;
+        thisRef.current.renderer.setSize( width, height );
+        thisRef.current.camera.aspect = width / height;
 
         // Note that after making changes to most of camera properties you have to call
         // .updateProjectionMatrix for the changes to take effect.
-        this.camera.updateProjectionMatrix();
+        thisRef.current.camera.updateProjectionMatrix();
     };
 
-    render() {
-        return <div style={style} ref={ref => (this.mount = ref)} />;
-    }
+    return <div style={style} ref={mountRef} />;
 }
 
-class Container extends React.Component {
-    state = {isMounted: true};
+const Container = () => {
+    const [state, setState] = useState({ isMounted: true });
 
-    render() {
-        const {isMounted = true, loadingPercentage = 0} = this.state;
-        return (
-            <>
-                <button onClick={() => this.setState(state => ({isMounted: !state.isMounted}))}>
-                    {isMounted ? "Unmount" : "Mount"}
-                </button>
-                {isMounted && <App onProgress={loadingPercentage => this.setState({ loadingPercentage })} />}
-                {isMounted && loadingPercentage === 100 && <div>Scroll to zoom, drag to rotate</div>}
-                {isMounted && loadingPercentage !== 100 && <div>Loading Model: {loadingPercentage}%</div>}
-            </>
-        )
-    }
+    const {isMounted = true, loadingPercentage = 0} = state;
+    return (
+        <>
+            <button onClick={() => setState(state => ({ ...state, isMounted: !state.isMounted}))}>
+                {isMounted ? "Unmount" : "Mount"}
+            </button>
+            {isMounted && <App onProgress={loadingPercentage => setState(state => ({ ...state, loadingPercentage }))} />}
+            {isMounted && loadingPercentage === 100 && <div>Scroll to zoom, drag to rotate</div>}
+            {isMounted && loadingPercentage !== 100 && <div>Loading Model: {loadingPercentage}%</div>}
+        </>
+    )
 }
 
 const rootElement = document.getElementById("root");
