@@ -2,9 +2,44 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+    <title>Vite + React + Three</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        background: rgba(0,0,0,0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font: 12px sans-serif;
+      }
+      button {
+        background: gray;
+        color: white;
+        margin: 20px;
+        border: 0;
+        border-radius: 2px;
+        padding: 6px 12px;
+        cursor: pointer;
+        transition: background 0.3s ease-in-out;
+      }
+      button:hover {
+        background: dimgray;
+      }
+      :focus {
+        outline: none;
+      }
+      div {
+        text-align: center;
+        width: 100%;
+        max-width: 800px;
+        border-radius: 5px;
+        overflow: hidden;
+        margin-bottom: 20px;
+      }
+    </style>
     <script type="module" crossorigin src="/react-three-obj-loader/assets/index-BaOWGgsK.js"></script>
   </head>
   <body>
