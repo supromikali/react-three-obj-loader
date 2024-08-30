@@ -69,9 +69,17 @@ const App = props => {
 
                 // change some custom props of the element: placement, color, rotation, anything that should be
                 // done once the model was loaded and ready for display
-                el.position.set(0, -150,0 );
                 el.material.color.set(0x50C878);
                 el.rotation.x = 23.5;
+
+                // centering the model
+                // THREE.Box3() is AABB (axis-aligned bounding box). You can set it from the object you've loaded.
+                // Then use .getCenter() method to get its center. Then simply subtract the vector of the center
+                // from the default position of the object. https://threejs.org/docs/index.html#api/en/math/Box3
+                const box = new THREE.Box3().setFromObject( el );
+                const center = new THREE.Vector3();
+                box.getCenter( center );
+                el.position.sub( center );
 
                 // make this element available inside of the whole component to do any animation later
                 thisRef.current.model = el;
