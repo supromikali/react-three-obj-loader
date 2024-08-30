@@ -10,6 +10,7 @@ Deployed to Github Pages: https://supromikali.github.io/react-three-obj-loader/
 # App Features
 
 - loading an OBJ Model into a scene
+- auto centering of the loaded model
 - Three.js OrbitControls integration
 - scene resize on window resize
 - display loading progress on Three Model in React app
